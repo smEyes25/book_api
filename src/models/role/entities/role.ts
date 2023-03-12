@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class RoleEntity {
+export class Role {
   @PrimaryColumn({
     type: 'varchar',
     length: 120,
