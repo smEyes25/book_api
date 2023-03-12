@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Constants } from 'common/constants/constants';
+import { Constants } from './common/constants/constants';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
