@@ -19,7 +19,7 @@ import { User } from '../../models/user/entities/user';
         database: configService.get<string>('DATABASE_NAME'),
         entities: [Account, Role, User, RoleGroup],
         autoLoadEntities: true,
-        synchronize: true,
+        // synchronize: true,
         dropSchema: true,
       }),
       inject: [ConfigService],
