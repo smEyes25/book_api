@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Account } from 'models/account/entities/account';
-import { Role } from 'models/role/entities/role';
-import { RoleGroup } from 'models/role_group/entities/role-group';
-import { User } from 'models/user/entities/user';
+import { Account } from '../../models/account/entities/account';
+import { Role } from '../../models/role/entities/role';
+import { RoleGroup } from '../../models/role_group/entities/role-group';
+import { User } from '../../models/user/entities/user';
 
 @Module({
   imports: [
