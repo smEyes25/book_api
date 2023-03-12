@@ -15,9 +15,10 @@ export class AppController {
   }
 
   @Get('/test')
-  test(): string {
-    const text = this.configService.get<string>('TEST');
-    return text;
+  test(): any {
+    const roles = this.appService.getTest();
+
+    return roles;
   }
 
   @Post()
