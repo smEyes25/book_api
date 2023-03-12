@@ -18,7 +18,7 @@ import { User } from '../../models/user/entities/user';
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
         entities: [Account, Role, User, RoleGroup],
-        synchronize: true,
+        // synchronize: true,
         dropSchema: true,
       }),
       inject: [ConfigService],
