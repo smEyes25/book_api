@@ -35,8 +35,8 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Body() body): object {
-    return this.authService.login(JSON.parse(body));
+  login(@Req() req): object {
+    return this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)

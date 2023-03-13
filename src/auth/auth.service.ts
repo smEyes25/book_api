@@ -10,8 +10,6 @@ export class AuthService {
       username: body.username,
     };
 
-    // console.log(body.id);
-
     return {
       access_token: this.jwtService.sign(payload),
     };
