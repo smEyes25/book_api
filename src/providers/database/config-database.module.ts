@@ -20,7 +20,6 @@ import { User } from '../../models/user/entities/user';
         entities: [Account, Role, User, RoleGroup],
         autoLoadEntities: true,
         synchronize: true,
-        dropSchema: true,
       }),
       inject: [ConfigService],
     }),

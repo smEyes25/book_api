@@ -30,12 +30,14 @@ export class User {
   @Column({
     type: 'varchar',
     length: 50,
+    nullable: true,
   })
   email: string;
 
   @Column({
     type: 'varchar',
     length: 120,
+    nullable: true,
   })
   account_id: string;
 }

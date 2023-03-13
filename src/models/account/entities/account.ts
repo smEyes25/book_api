@@ -21,6 +21,7 @@ export class Account {
 
   @Column({
     type: 'date',
+    nullable: true,
   })
   last_logged_in_date: Date;
 

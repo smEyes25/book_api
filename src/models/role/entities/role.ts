@@ -11,11 +11,13 @@ export class Role {
 
   @Column({
     type: 'date',
+    nullable: true,
   })
   created_date: Date;
 
   @Column({
     type: 'date',
+    nullable: true,
   })
   modified_date: Date;
 
@@ -25,4 +27,10 @@ export class Role {
     unique: true,
   })
   name: string;
+
+  @Column({
+    type: 'int',
+    default: 1,
+  })
+  status: number;
 }
