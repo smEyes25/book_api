@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt/dist';
-import { Constants } from 'src/common/constants/constants';
-import { JwtStrategy } from 'src/common/guards/jwt/jwt.strategy';
+import { Constants } from '../common/constants/constants';
+import { JwtStrategy } from '../common/guards/jwt/jwt.strategy';
 import { AuthService } from './auth.service';
 
 @Module({
