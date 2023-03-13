@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common/decorators';
 import { JwtService } from '@nestjs/jwt';
-import { checkPassword } from 'src/common/constants/hash';
-import { AccountService } from 'src/models/account/account.service';
-import { Account } from 'src/models/account/entities/account';
+import { checkPassword } from '../common/constants/hash';
+import { AccountService } from '../models/account/account.service';
+import { Account } from '../models/account/entities/account';
 
 @Injectable()
 export class AuthService {
