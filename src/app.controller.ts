@@ -21,6 +21,11 @@ export class AppController {
     private readonly authService: AuthService,
   ) {}
 
+  @Post('/test')
+  test(@Req() req) {
+    console.log(req.body);
+  }
+
   @Post('/create-account')
   async create(@Body() body): Promise<boolean> {
     const user = new User();
