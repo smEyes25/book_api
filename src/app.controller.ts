@@ -43,6 +43,6 @@ export class AppController {
   @Get()
   getHello(@Req() req) {
     // console.log(req);
-    return req;
+    return JSON.parse(req);
   }
 }
