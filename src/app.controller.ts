@@ -57,4 +57,9 @@ export class AppController {
   getHello(@Request() req) {
     return req.user;
   }
+
+  @Get('/test1')
+  test1() {
+    return 'HELLO';
+  }
 }
