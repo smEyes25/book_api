@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { hash } from 'src/common/constants/hash';
-import { generateID } from 'src/common/constants/uuid';
+import { hash } from '../../common/constants/hash';
+import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { RoleService } from '../role/role.service';
 import { RoleGroupService } from '../role_group/role-group.service';
