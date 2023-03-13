@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt/dist';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from 'src/common/guards/local/local.strategy';
+import { AccountModule } from 'src/models/account/account.module';
 import { Constants } from '../common/constants/constants';
 import { JwtStrategy } from '../common/guards/jwt/jwt.strategy';
 import { AuthService } from './auth.service';
 
 @Module({
   imports: [
+    AccountModule,
+    PassportModule,
     JwtModule.register({
       // secret: Constants.JWT_SECRET_KEY,
       secret: 'This is my secret key',
@@ -17,6 +22,6 @@ import { AuthService } from './auth.service';
   ],
   exports: [AuthService],
   controllers: [],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}
