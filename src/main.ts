@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Constants } from './common/constants/constants';
 import { AppModule } from './app.module';
 
-export async function bootstrap() {
+async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   await app.listen(Constants.SERVER_PORT);
