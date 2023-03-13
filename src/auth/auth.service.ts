@@ -6,8 +6,6 @@ export class AuthService {
   constructor(private jwtService: JwtService) {}
 
   login(body: any): object {
-    console.log(body);
-
     const payload = {
       username: body.username,
     };
