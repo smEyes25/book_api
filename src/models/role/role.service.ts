@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { generateID } from 'src/common/constants/uuid';
+import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Role } from './entities/role';
 

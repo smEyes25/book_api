@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common/decorators';
-import { AccountService } from 'src/models/account/account.service';
-import { checkPassword } from 'src/common/constants/hash';
-import { Account } from 'src/models/account/entities/account';
+import { AccountService } from '../../../models/account/account.service';
+import { checkPassword } from '../../../common/constants/hash';
+import { Account } from '../../../models/account/entities/account';
 
 @Injectable()
 export class AccountValidationService {
