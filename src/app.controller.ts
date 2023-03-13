@@ -42,7 +42,6 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getHello(@Req() req) {
-    // console.log(req);
-    return JSON.parse(req);
+    return req.user;
   }
 }
