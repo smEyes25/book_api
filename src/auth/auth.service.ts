@@ -21,9 +21,9 @@ export class AuthService {
     return account;
   }
 
-  login(body: any): object {
+  async login(account: any) {
     const payload = {
-      username: body.username,
+      username: account.username,
     };
 
     return {

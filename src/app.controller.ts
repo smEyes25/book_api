@@ -36,13 +36,13 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Req() req): object {
-    return this.authService.login(req.payload);
+    return this.authService.login(req.account);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   getHello(@Req() req) {
     // console.log(req);
-    return req.user;
+    return req.account;
   }
 }
