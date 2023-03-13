@@ -7,10 +7,13 @@ async function bootstrap() {
   app.enableCors({
     origin: true,
     allowedHeaders: [
-      'Access-Control-Allow-Headers',
       'Content-Type',
-      'Access-Control-Allow-Origin',
+      'Authorization',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Request-Headers',
     ],
+    credentials: true,
+    preflightContinue: true,
   });
   await app.listen(Constants.SERVER_PORT);
 }
