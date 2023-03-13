@@ -60,6 +60,6 @@ export class AppController {
 
   @Get('/test1')
   test1() {
-    return 'HELLO';
+    return { test: 'hello' };
   }
 }
