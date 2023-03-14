@@ -48,8 +48,8 @@ export class AppController {
   }
 
   @UseGuards(LocalAuthGuard)
+  @Post('/login')
   @Options('/login')
-  // @Post('/login')
   login(@Request() req): object {
     console.log(req);
     return this.authService.login(req.body);

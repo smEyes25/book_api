@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options: CorsOptions = {
-    origin: 'https://bookstore-dangljnh.vercel.app',
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     // preflightContinue: true,
     optionsSuccessStatus: 200,
