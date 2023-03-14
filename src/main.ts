@@ -7,18 +7,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options: CorsOptions = {
-    origin: 'http://127.0.0.1:5501',
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    preflightContinue: true,
+    // preflightContinue: true,
     optionsSuccessStatus: 200,
     credentials: true,
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Access-Control-Allow-Methods',
-      'Access-Control-Allow-Origin',
-      'Access-Control-Request-Headers',
-    ],
+    // allowedHeaders: [
+    //   'Content-Type',
+    //   'Authorization',
+    //   'Access-Control-Allow-Methods',
+    //   'Access-Control-Allow-Origin',
+    //   'Access-Control-Request-Headers',
+    // ],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   };
 
   app.enableCors(options);
