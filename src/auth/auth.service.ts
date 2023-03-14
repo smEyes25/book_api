@@ -21,7 +21,7 @@ export class AuthService {
     return account;
   }
 
-  async login(account: any) {
+  async login(account: any): Promise<any> {
     const payload = {
       username: account.username,
     };

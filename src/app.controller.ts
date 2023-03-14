@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Options,
   Post,
   Req,
   Request,
@@ -52,7 +51,7 @@ export class AppController {
   // @Options('/login')
   async login(@Request() req): Promise<object> {
     console.log(req);
-    return this.authService.login(req.body);
+    return await this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)
