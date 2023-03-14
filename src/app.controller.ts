@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Options,
   Post,
   Req,
   Request,
@@ -47,9 +48,11 @@ export class AppController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Post('/login')
+  @Options('/login')
+  // @Post('/login')
   login(@Request() req): object {
-    return this.authService.login(req.payload);
+    console.log(req);
+    return this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)
