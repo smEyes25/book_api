@@ -47,10 +47,10 @@ export class AppController {
     return false;
   }
 
-  // @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('/login')
   // @Options('/login')
-  login(@Request() req): object {
+  async login(@Request() req): Promise<object> {
     console.log(req);
     return this.authService.login(req.body);
   }
