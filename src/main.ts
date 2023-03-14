@@ -10,10 +10,11 @@ async function bootstrap() {
       'Content-Type',
       'Authorization',
       'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Origin',
       'Access-Control-Request-Headers',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
+    preflightContinue: true,
     optionsSuccessStatus: 204,
   });
   await app.listen(Constants.SERVER_PORT);
