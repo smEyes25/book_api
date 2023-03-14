@@ -4,8 +4,13 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
+
+  const options = {
     origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
     allowedHeaders: [
       'Content-Type',
       'Authorization',
@@ -13,10 +18,9 @@ async function bootstrap() {
       'Access-Control-Allow-Origin',
       'Access-Control-Request-Headers',
     ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: true,
-    optionsSuccessStatus: 204,
-  });
+  };
+
+  app.enableCors(options);
   await app.listen(Constants.SERVER_PORT);
 }
 bootstrap();
