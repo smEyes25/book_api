@@ -20,7 +20,7 @@ async function bootstrap() {
     //   'Access-Control-Request-Headers',
     // ],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    preflightContinue: false,
+    preflightContinue: true,
   };
 
   app.enableCors(options);

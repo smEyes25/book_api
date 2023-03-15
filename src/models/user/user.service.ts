@@ -48,6 +48,7 @@ export class UserService {
     user.phone_number = input.phone_number;
     try {
       await this.userRepository.save(user);
+      return true;
     } catch (err: any) {
       return false;
     }
