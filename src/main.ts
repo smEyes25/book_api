@@ -25,7 +25,7 @@ async function bootstrap() {
       'X-Requested-With',
       'Accept',
     ],
-    preflightContinue: false,
+    preflightContinue: true,
   };
 
   app.enableCors(options);
