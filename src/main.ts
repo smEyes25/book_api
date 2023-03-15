@@ -9,21 +9,20 @@ async function bootstrap() {
   const options: CorsOptions = {
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    // preflightContinue: true,
     optionsSuccessStatus: 200,
     credentials: true,
-    // allowedHeaders: [
-    //   'Content-Type',
-    //   'Authorization',
-    //   'Access-Control-Allow-Methods',
-    //   'Access-Control-Allow-Origin',
-    //   'Access-Control-Request-Headers',
-    // ],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    preflightContinue: true,
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+    ],
+    exposedHeaders: ['Content-Type'],
+    preflightContinue: false,
   };
 
   app.enableCors(options);
+
   await app.listen(Constants.SERVER_PORT);
 }
 bootstrap();

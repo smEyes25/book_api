@@ -1,6 +1,6 @@
 export class Constants {
   //SERVER
-  public static SERVER_PORT = 3000;
+  public static SERVER_PORT = 4000;
 
   //HASH
   public static SALT_ROUNDS = 10;
