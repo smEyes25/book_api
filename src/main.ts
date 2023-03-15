@@ -17,7 +17,14 @@ async function bootstrap() {
       'X-Requested-With',
       'Accept',
     ],
-    exposedHeaders: ['Content-Type', 'X-Custom-Header', 'Content-Encoding'],
+    exposedHeaders: [
+      'Content-Type',
+      'X-Custom-Header',
+      'Content-Encoding',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+    ],
     preflightContinue: false,
   };
 
