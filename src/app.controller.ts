@@ -7,6 +7,8 @@ import {
   Request,
   UseGuards,
   Options,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
@@ -63,5 +65,10 @@ export class AppController {
   @Get('/test1')
   test1() {
     return { test: 'hello' };
+  }
+
+  @Options('/login')
+  optionsLogin(@Res() res) {
+    return HttpStatus.OK;
   }
 }
