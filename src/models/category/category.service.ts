@@ -12,51 +12,49 @@ export class CategoryService {
   ) {}
 
   async findAll(): Promise<Category[]> {
-    const roles = await this.categoryRepository.findBy({ status: 1 });
-    return roles;
+    const categories = await this.categoryRepository.findBy({ status: 1 });
+    return categories;
   }
 
   async findById(id: string): Promise<Category> {
-    const role = await this.categoryRepository.findOneBy({ id, status: 1 });
-    return role;
+    const category = await this.categoryRepository.findOneBy({ id, status: 1 });
+    return category;
   }
 
   async findByName(name: string): Promise<Category> {
-    const role = await this.categoryRepository.findOneBy({
+    const category = await this.categoryRepository.findOneBy({
       name,
       status: 1,
     });
-    return role;
+    return category;
   }
 
-  async create(input: Category): Promise<Category> {
-    const id = generateID('ROLE_');
+  async create(input: Category): Promise<boolean> {
+    const id = generateID('CATEGORY_');
     const category = new Category();
 
     category.id = id;
     category.name = input.name;
     category.status = input.status;
     try {
-      const result = await this.categoryRepository.save(category);
-      return result;
+      await this.categoryRepository.save(category);
+      return true;
     } catch (err: any) {
       throw new HttpException('Create category failed', HttpStatus.BAD_REQUEST);
     }
   }
 
-  async update(input: Category, categoryId: string): Promise<boolean> {
+  async update(input: any, categoryId: string): Promise<boolean> {
     const category = await this.findById(categoryId);
-    if (!category) {
-      throw new HttpException('Category is not found', HttpStatus.NOT_FOUND);
-    }
+    if (!category) return false;
+
     category.name = input.name;
-    category.status = input.status;
 
     try {
       await this.categoryRepository.save(category);
       return true;
     } catch (err: any) {
-      throw new HttpException('Update category failed', HttpStatus.BAD_REQUEST);
+      return false;
     }
   }
 
@@ -64,7 +62,7 @@ export class CategoryService {
   async remove(categoryId: string): Promise<boolean> {
     const category = await this.findById(categoryId);
     if (!category) {
-      throw new HttpException('Category is not found', HttpStatus.NOT_FOUND);
+      return false;
     }
 
     category.status = 0;
@@ -73,7 +71,7 @@ export class CategoryService {
       await this.categoryRepository.save(category);
       return true;
     } catch (err: any) {
-      throw new HttpException('Remove category failed', HttpStatus.BAD_REQUEST);
+      return false;
     }
   }
 }

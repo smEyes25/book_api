@@ -6,9 +6,6 @@ import {
   Req,
   Request,
   UseGuards,
-  Options,
-  Res,
-  HttpStatus,
   Response,
 } from '@nestjs/common';
 import { AppService } from './app.service';

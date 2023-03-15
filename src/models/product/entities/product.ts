@@ -40,6 +40,8 @@ export class Product {
   in_stock_id: string;
 
   @ManyToMany(() => Category, (category) => category.products)
-  @JoinTable()
+  @JoinTable({
+    name: 'product_category',
+  })
   categories: Category[];
 }

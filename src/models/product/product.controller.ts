@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { InStock } from '../in-stock/entities/in-stock';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
 import { InStockService } from '../in-stock/in-stock.service';
-import { ProductInfo } from '../product-info/entities/product-info';
 import { ProductInfoService } from '../product-info/product-info.service';
 import { Product } from './entities/product';
 import { ProductService } from './product.service';
@@ -14,56 +23,69 @@ export class ProductController {
     private readonly inStockService: InStockService,
   ) {}
 
-  @Get('/all')
-  async getAll(@Res() res): Promise<any> {
-    const result = [];
+  @HttpCode(200)
+  @Get()
+  async getAll(): Promise<any> {
     const products = await this.productService.findAll();
 
-    products.map(async (product) => {
-      let data = {};
-      let productInfo = await this.productInfoService.findById(
-        product.product_info_id,
-      );
-      productInfo = {
-        ...productInfo,
-        id: productInfo.id,
-        product_id: productInfo.product_id,
-      };
-
-      let inStock = await this.inStockService.findById(product.in_stock_id);
-      inStock = { ...inStock, id: inStock.id, product_id: inStock.product_id };
-
-      product = {
-        ...product,
-        product_info_id: product.product_info_id,
-        in_stock_id: product.in_stock_id,
-        status: product.status,
-      };
-
-      data = { ...product, productInfo, inStock };
-
-      result.push(data);
+    const result = products.map((product) => {
+      return this.getInfoAndStock(product);
     });
 
-    return result;
+    return await Promise.all(result);
   }
 
-  @Post('/create')
+  @HttpCode(200)
+  @Get('/:id')
+  async getById(@Param() param): Promise<any> {
+    const product = await this.productService.findById(param.id);
+    if (!product) {
+      throw new HttpException('No product found', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.getInfoAndStock(product);
+  }
+
+  @HttpCode(201)
+  @Post()
   async create(@Req() req): Promise<any> {
-    const input = req.body;
+    const isProduct = await this.productService.create(req.body);
+    if (!isProduct) {
+      throw new HttpException('Create product failed', HttpStatus.BAD_REQUEST);
+    }
 
-    const productInfo = new ProductInfo();
-    productInfo.name = input.name;
-    productInfo.slug = input.slug;
-    productInfo.description = input.description;
-    productInfo.author_name = input.author_name;
-    productInfo.published_date = input.published_date;
-    productInfo.price = input.price;
+    return true;
+  }
 
-    const inStock = new InStock();
-    inStock.quantity = input.quantity;
+  @HttpCode(200)
+  @Put('/:id')
+  async update(@Req() req, @Param() param): Promise<any> {
+    const isUpdated = await this.productService.update(req.body, param.id);
+    if (!isUpdated) {
+      throw new HttpException('Update product failed', HttpStatus.BAD_REQUEST);
+    }
 
-    const product = new Product();
-    product.status = input.status;
+    return true;
+  }
+
+  @HttpCode(200)
+  @Delete('/:id')
+  async delete(@Param() param): Promise<any> {
+    const isDeleted = await this.productService.remove(param.id);
+    if (!isDeleted) {
+      throw new HttpException('Delete product failed', HttpStatus.BAD_REQUEST);
+    }
+
+    return true;
+  }
+
+  async getInfoAndStock(product: Product): Promise<any> {
+    const productInfo = await this.productInfoService.findById(
+      product.product_info_id,
+    );
+
+    const inStock = await this.inStockService.findById(product.in_stock_id);
+
+    return { id: product.id, productInfo, inStock };
   }
 }

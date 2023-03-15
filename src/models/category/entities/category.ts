@@ -1,5 +1,5 @@
 import { Product } from '../../../models/product/entities/product';
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Category {
@@ -23,6 +23,5 @@ export class Category {
   status: number;
 
   @ManyToMany(() => Product, (product) => product.categories)
-  @JoinTable()
   products: Product[];
 }
