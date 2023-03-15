@@ -27,7 +27,7 @@ async function bootstrap() {
     // ],
     // preflightContinue: true,
 
-    origin: '*', // Allow requests from any origin
+    origin: 'http://localhost:4000', // Allow requests from any origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
     exposedHeaders: ['Content-Type', 'Authorization'], // Expose specific headers
