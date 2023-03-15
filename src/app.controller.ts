@@ -57,6 +57,8 @@ export class AppController {
     const data = await this.authService.login(req.body);
 
     res.send({ data });
+
+    // return await this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)

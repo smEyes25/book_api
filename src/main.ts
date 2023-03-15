@@ -7,25 +7,32 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options: CorsOptions = {
-    origin: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    optionsSuccessStatus: 200,
-    credentials: true,
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-      'Accept',
-    ],
-    exposedHeaders: [
-      'Content-Type',
-      'X-Custom-Header',
-      'Content-Encoding',
-      'Authorization',
-      'X-Requested-With',
-      'Accept',
-    ],
-    preflightContinue: true,
+    // origin: true,
+    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    // optionsSuccessStatus: 204,
+    // credentials: true,
+    // allowedHeaders: [
+    //   'Content-Type',
+    //   'Authorization',
+    //   'X-Requested-With',
+    //   'Accept',
+    // ],
+    // exposedHeaders: [
+    //   'Content-Type',
+    //   'X-Custom-Header',
+    //   'Content-Encoding',
+    //   // 'Authorization',
+    //   // 'X-Requested-With',
+    //   // 'Accept',
+    // ],
+    // preflightContinue: true,
+
+    origin: '*', // Allow requests from any origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+    exposedHeaders: ['Content-Type', 'Authorization'], // Expose specific headers
+    credentials: true, // Allow cookies and authorization headers
+    maxAge: 86400, // Cache CORS preflight response for 24 hours
   };
 
   app.enableCors(options);
