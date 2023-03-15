@@ -9,6 +9,7 @@ import {
   Options,
   Res,
   HttpStatus,
+  Response,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
@@ -51,9 +52,11 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  async login(@Request() req): Promise<object> {
+  async login(@Request() req, @Response() res): Promise<any> {
     // console.log(req);
-    return await this.authService.login(req.body);
+    const data = await this.authService.login(req.body);
+
+    res.send({ data });
   }
 
   @UseGuards(JwtAuthGuard)
