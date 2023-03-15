@@ -9,6 +9,7 @@ import { Account } from '../../models/account/entities/account';
 import { Role } from '../../models/role/entities/role';
 import { RoleGroup } from '../../models/role_group/entities/role-group';
 import { User } from '../../models/user/entities/user';
+import { Bill } from 'src/models/bill/entities/bill';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { User } from '../../models/user/entities/user';
           ProductInfo,
           InStock,
           Category,
+          Bill,
         ],
         autoLoadEntities: true,
         synchronize: true,

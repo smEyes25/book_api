@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category';
-import { Product } from '../product/entities/product';
 
 @Injectable()
 export class CategoryService {
