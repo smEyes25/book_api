@@ -30,8 +30,8 @@ async function bootstrap() {
 
   app.enableCors(options);
 
-  app.use((res) => {
-    res.header('Access-Control-Allow-Origin', '*');
+  app.use((res: Response) => {
+    res.headers.set('Access-Control-Allow-Origin', '*');
   });
 
   await app.listen(Constants.SERVER_PORT);
