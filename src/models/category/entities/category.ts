@@ -1,4 +1,4 @@
-import { Product } from 'src/models/product/entities/product';
+import { Product } from '../../../models/product/entities/product';
 import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()

@@ -1,4 +1,4 @@
-import { Category } from 'src/models/category/entities/category';
+import { Category } from '../../../models/category/entities/category';
 import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
