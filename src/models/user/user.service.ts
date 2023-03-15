@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
@@ -23,15 +23,16 @@ export class UserService {
     return await this.userRepository.findBy({ full_name: name });
   }
 
-  async create(input: User): Promise<User> {
+  async create(input: any, accountId: string): Promise<User> {
     const id = generateID('USER_');
+
     const user = new User();
     user.id = id;
     user.full_name = input.full_name;
     user.address = input.address;
     user.email = input.email;
     user.phone_number = input.phone_number;
-    user.account_id = input.account_id;
+    user.account_id = accountId;
     try {
       const result = await this.userRepository.save(user);
       return result;
@@ -40,8 +41,8 @@ export class UserService {
     }
   }
 
-  async update(input: User): Promise<boolean> {
-    const user = await this.findById(input.id);
+  async update(input: any, userId: string): Promise<boolean> {
+    const user = await this.findById(userId);
     user.full_name = input.full_name;
     user.address = input.address;
     user.email = input.email;

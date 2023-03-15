@@ -40,6 +40,7 @@ export class Account {
 
   // 1: active - 0: no active
   @Column({
+    type: 'int',
     default: 1,
   })
   status: number;

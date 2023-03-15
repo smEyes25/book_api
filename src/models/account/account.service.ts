@@ -5,7 +5,6 @@ import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { RoleService } from '../role/role.service';
 import { RoleGroupService } from '../role_group/role-group.service';
-import { User } from '../user/entities/user';
 import { UserService } from '../user/user.service';
 import { Account } from './entities/account';
 
@@ -32,15 +31,10 @@ export class AccountService {
     return await this.accountRepository.findOneBy({ username, status: 1 });
   }
 
-  async create(
-    inputUser: User,
-    inputAccount: Account,
-    roleId: string,
-  ): Promise<boolean> {
+  async create(input: any): Promise<boolean> {
     const id = generateID('ACCOUNT_');
 
-    inputUser.account_id = id;
-    const user = await this.userService.create(inputUser);
+    const user = await this.userService.create(input, id);
     if (!user) {
       return false;
     }
@@ -49,13 +43,16 @@ export class AccountService {
     account.id = id;
     account.created_date = new Date();
     account.modified_date = new Date();
-    account.last_logged_in_date = inputAccount.last_logged_in_date;
-    account.username = inputAccount.username;
-    account.password = hash(inputAccount.password);
-    account.status = inputAccount.status;
+    account.last_logged_in_date = new Date();
+    account.username = input.username;
+    account.password = hash(input.password);
+    // account.status = inputAccount.status;
     account.user_id = user.id;
 
-    const roleGroup = await this.roleGroupService.create(roleId, account.id);
+    const role = await this.roleService.findByName(input.role_name);
+    if (!role) return false;
+
+    const roleGroup = await this.roleGroupService.create(role.id, account.id);
     if (!roleGroup) return false;
 
     try {
@@ -68,25 +65,18 @@ export class AccountService {
     }
   }
 
-  async update(inputUser: User, inputAccount: Account): Promise<boolean> {
-    const account = await this.findById(inputAccount.id);
+  async update(input: any, accountId: string): Promise<boolean> {
+    const account = await this.findById(accountId);
     if (!account) return false;
 
     const user = await this.userService.findById(account.user_id);
-    if (!user) return false;
 
     account.modified_date = new Date();
-    account.username = inputAccount.username;
-    account.password = hash(inputAccount.password);
-    account.status = inputAccount.status;
-
-    user.full_name = inputUser.full_name;
-    user.phone_number = inputUser.phone_number;
-    user.address = inputUser.address;
-    user.email = inputUser.email;
+    account.username = input.username;
+    account.password = hash(input.password);
 
     try {
-      await this.userService.create(user);
+      await this.userService.update(input, user.id);
       await this.accountRepository.save(account);
       return true;
     } catch (err: any) {
@@ -94,12 +84,12 @@ export class AccountService {
     }
   }
 
-  async updateLastLoginDate(accountId: string, lastLoggedDate: Date) {
+  async updateLastLoginDate(accountId: string) {
     const account = await this.findById(accountId);
     if (!account) return false;
 
     try {
-      account.last_logged_in_date = lastLoggedDate;
+      account.last_logged_in_date = new Date();
       await this.accountRepository.save(account);
       return true;
     } catch (err: any) {
@@ -130,8 +120,8 @@ export class AccountService {
     const account = await this.findById(accountId);
     if (!account) return false;
 
+    account.status = 0;
     try {
-      account.status = 0;
       await this.accountRepository.save(account);
       return true;
     } catch (err: any) {

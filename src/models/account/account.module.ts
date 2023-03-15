@@ -5,6 +5,7 @@ import { Account } from './entities/account';
 import { UserModule } from '../user/user.module';
 import { RoleGroupModule } from '../role_group/role-group.module';
 import { RoleModule } from '../role/role.module';
+import { AccountController } from './account.controller';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { RoleModule } from '../role/role.module';
     RoleModule,
   ],
   exports: [TypeOrmModule, AccountService],
-  controllers: [],
+  controllers: [AccountController],
   providers: [AccountService],
 })
 export class AccountModule {}
