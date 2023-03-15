@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category';
+import { Product } from '../product/entities/product';
 
 @Injectable()
 export class CategoryService {
@@ -27,6 +28,14 @@ export class CategoryService {
       status: 1,
     });
     return category;
+  }
+
+  async findProductsById(id: string): Promise<any> {
+    return await this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.products', 'product')
+      .where('category.id = :id', { id })
+      .getMany();
   }
 
   async create(input: Category): Promise<boolean> {

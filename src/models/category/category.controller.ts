@@ -34,6 +34,14 @@ export class CategoryController {
     return category;
   }
 
+  @HttpCode(200)
+  @Get('/product/:id')
+  async getProductsById(@Param() param): Promise<any> {
+    const products = await this.categoryService.findProductsById(param.id);
+
+    return products;
+  }
+
   @HttpCode(201)
   @Post()
   async create(@Req() req): Promise<boolean> {

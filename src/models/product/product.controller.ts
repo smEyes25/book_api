@@ -10,6 +10,7 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
+import { CategoryService } from '../category/category.service';
 import { InStockService } from '../in-stock/in-stock.service';
 import { ProductInfoService } from '../product-info/product-info.service';
 import { Product } from './entities/product';
@@ -21,6 +22,7 @@ export class ProductController {
     private readonly productService: ProductService,
     private readonly productInfoService: ProductInfoService,
     private readonly inStockService: InStockService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   @HttpCode(200)
