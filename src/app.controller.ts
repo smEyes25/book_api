@@ -66,9 +66,4 @@ export class AppController {
   test1() {
     return { test: 'hello' };
   }
-
-  @Options('/login')
-  optionsLogin(@Res() res) {
-    return HttpStatus.OK;
-  }
 }
