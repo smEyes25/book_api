@@ -17,7 +17,7 @@ async function bootstrap() {
       'X-Requested-With',
       'Accept',
     ],
-    exposedHeaders: ['Content-Type'],
+    exposedHeaders: ['Content-Type', 'Access-Control-Allow-Origin'],
     preflightContinue: false,
   };
 
