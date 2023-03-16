@@ -43,7 +43,7 @@ export class AppController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getHello() {
-    return 'Logged with Bearer token';
+  async getHello(@Req() req): Promise<any> {
+    return req.user;
   }
 }
