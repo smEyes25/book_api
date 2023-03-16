@@ -6,6 +6,7 @@ import { Product } from './entities/product';
 import { ProductInfoService } from '../product-info/product-info.service';
 import { InStockService } from '../in-stock/in-stock.service';
 import { CategoryService } from '../category/category.service';
+import { Category } from '../category/entities/category';
 
 @Injectable()
 export class ProductService {
@@ -23,6 +24,14 @@ export class ProductService {
 
   async findById(id: string): Promise<Product> {
     return await this.productRepository.findOneBy({ id, status: 1 });
+  }
+
+  async findCategoriesById(id: string): Promise<any> {
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.categories', 'category')
+      .where('product.id = :id', { id })
+      .getMany();
   }
 
   async create(input: any): Promise<boolean> {

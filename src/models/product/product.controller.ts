@@ -48,6 +48,12 @@ export class ProductController {
     return await this.getInfoAndStock(product);
   }
 
+  @HttpCode(200)
+  @Get('/category/:id')
+  async getCategoriesById(@Param() param): Promise<any> {
+    return await this.productService.findCategoriesById(param.id);
+  }
+
   @HttpCode(201)
   @Post()
   async create(@Req() req): Promise<any> {
