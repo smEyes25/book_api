@@ -44,14 +44,21 @@ export class ProductController {
     if (!product) {
       throw new HttpException('No product found', HttpStatus.BAD_REQUEST);
     }
+    const categories = await this.productService.findCategoriesById(product.id);
 
-    return await this.getInfoAndStock(product);
+    const data = await this.getInfoAndStock(product);
+    return { data, categories };
   }
 
   @HttpCode(200)
   @Get('/category/:id')
   async getCategoriesById(@Param() param): Promise<any> {
-    return await this.productService.findCategoriesById(param.id);
+    const categories = await this.productService.findCategoriesById(param.id);
+    if (!categories) {
+      throw new HttpException('No product found', HttpStatus.BAD_REQUEST);
+    }
+
+    return categories;
   }
 
   @HttpCode(201)

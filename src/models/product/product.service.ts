@@ -30,7 +30,7 @@ export class ProductService {
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.categories', 'category')
       .where('product.id = :id', { id })
-      .getMany();
+      .getOne();
   }
 
   async create(input: any): Promise<boolean> {
@@ -94,7 +94,6 @@ export class ProductService {
     product.categories = await Promise.all(
       input.category_ids.map(async (categoryId: string) => {
         const category = await this.categoryService.findById(categoryId);
-        // product.categories.push(category);
         return category;
       }),
     );
