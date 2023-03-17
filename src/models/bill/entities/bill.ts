@@ -56,11 +56,4 @@ export class Bill {
     default: 0,
   })
   total_price: string;
-
-  @Column({
-    type: 'varchar',
-    length: 120,
-    nullable: true,
-  })
-  account_id: string;
 }

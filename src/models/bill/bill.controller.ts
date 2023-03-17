@@ -27,16 +27,17 @@ export class BillController {
     const bill = await this.billService.findById(param.id);
     if (!bill) throw new HttpException('No bill found', HttpStatus.BAD_REQUEST);
 
-    return true;
+    return bill;
   }
 
   @HttpCode(201)
   @Post()
   async create(@Req() req): Promise<any> {
     const isCreated = await this.billService.create(req.body);
-    if (!isCreated)
+    if (!isCreated) {
+      console.log(isCreated);
       throw new HttpException('Create bill failed', HttpStatus.BAD_REQUEST);
-
+    }
     return true;
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Bill } from './entities/bill';
 
@@ -20,7 +21,9 @@ export class BillService {
 
   async create(input: any): Promise<boolean> {
     const bill = new Bill();
+    const id = generateID('BILL_');
 
+    bill.id = id;
     bill.created_date = new Date();
     bill.first_name = input.first_name;
     bill.last_name = input.last_name;
@@ -29,6 +32,8 @@ export class BillService {
     bill.phone_number = input.phone_number;
     bill.note = input.note;
     bill.total_price = input.total_price;
+
+    // console.log(bill);
 
     try {
       await this.billRepository.save(bill);

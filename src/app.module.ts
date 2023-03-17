@@ -9,6 +9,7 @@ import { ProductModule } from './models/product/product.module';
 import { ProductInfoModule } from './models/product-info/product-info.module';
 import { InStockModule } from './models/in-stock/in-stock.module';
 import { CategoryModule } from './models/category/category.module';
+import { BillModule } from './models/bill/bill.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +20,7 @@ import { CategoryModule } from './models/category/category.module';
     ProductInfoModule,
     InStockModule,
     CategoryModule,
+    BillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
