@@ -55,6 +55,8 @@ export class AccountService {
     const roleGroup = await this.roleGroupService.create(role.id, account.id);
     if (!roleGroup) return false;
 
+    console.log('PASS');
+
     try {
       await this.accountRepository.save(account);
       return true;
