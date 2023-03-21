@@ -34,11 +34,6 @@ export class AccountService {
   async create(input: any): Promise<boolean> {
     const id = generateID('ACCOUNT_');
 
-    const user = await this.userService.create(input, id);
-    if (!user) {
-      return false;
-    }
-
     const account = new Account();
     account.id = id;
     account.created_date = new Date();
@@ -47,13 +42,18 @@ export class AccountService {
     account.username = input.username;
     account.password = hash(input.password);
     // account.status = inputAccount.status;
-    account.user_id = user.id;
 
     const role = await this.roleService.findByName(input.role_name);
     if (!role) return false;
 
     const roleGroup = await this.roleGroupService.create(role.id, account.id);
     if (!roleGroup) return false;
+
+    const user = await this.userService.create(input, id);
+    if (!user) {
+      return false;
+    }
+    account.user_id = user.id;
 
     console.log('PASS');
 
