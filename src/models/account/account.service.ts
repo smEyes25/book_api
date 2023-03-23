@@ -41,7 +41,7 @@ export class AccountService {
     account.last_logged_in_date = new Date();
     account.username = input.username;
     account.password = hash(input.password);
-    // account.status = inputAccount.status;
+    account.status = 1;
 
     const role = await this.roleService.findByName(input.role_name);
     if (!role) return false;
