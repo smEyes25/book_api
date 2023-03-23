@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
@@ -14,6 +14,7 @@ export class ProductService {
     private productRepository: Repository<Product>,
     private productInfoService: ProductInfoService,
     private inStockService: InStockService,
+    @Inject(forwardRef(() => CategoryService))
     private categoryService: CategoryService,
   ) {}
 

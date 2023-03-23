@@ -56,6 +56,10 @@ export class AccountService {
     account.user_id = user.id;
 
     console.log('PASS');
+    console.log({
+      roleGroup,
+      user,
+    });
 
     try {
       await this.accountRepository.save(account);

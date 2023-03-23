@@ -1,14 +1,25 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category';
+import { ProductService } from '../product/product.service';
+import { ProductInfoService } from '../product-info/product-info.service';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
+    @Inject(forwardRef(() => ProductService))
+    private productService: ProductService,
+    private productInfoService: ProductInfoService,
   ) {}
 
   async findAll(): Promise<Category[]> {
@@ -30,11 +41,24 @@ export class CategoryService {
   }
 
   async findProductsById(id: string): Promise<any> {
-    return await this.categoryRepository
+    const category = await this.categoryRepository
       .createQueryBuilder('category')
       .leftJoinAndSelect('category.products', 'product')
       .where('category.id = :id', { id })
-      .getMany();
+      .getOne();
+
+    let productInfos = [];
+    const products = category.products;
+    products.map((product) => {
+      const product_info = this.productInfoService.findById(
+        product.product_info_id,
+      );
+      productInfos.push(product_info);
+    });
+
+    productInfos = await Promise.all(productInfos);
+
+    return { category, product_infos: productInfos };
   }
 
   async create(input: Category): Promise<boolean> {
