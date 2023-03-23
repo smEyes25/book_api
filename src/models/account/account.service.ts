@@ -42,31 +42,26 @@ export class AccountService {
     account.username = input.username;
     account.password = hash(input.password);
     account.status = 1;
+    account.user_id = '123456789';
 
-    const role = await this.roleService.findByName(input.role_name);
-    if (!role) return false;
+    // const role = await this.roleService.findByName(input.role_name);
+    // if (!role) return false;
 
-    const roleGroup = await this.roleGroupService.create(role.id, account.id);
-    if (!roleGroup) return false;
+    // const roleGroup = await this.roleGroupService.create(role.id, account.id);
+    // if (!roleGroup) return false;
 
-    const user = await this.userService.create(input, id);
-    if (!user) {
-      return false;
-    }
-    account.user_id = user.id;
-
-    console.log('PASS');
-    console.log({
-      roleGroup,
-      user,
-    });
+    // const user = await this.userService.create(input, id);
+    // if (!user) {
+    //   return false;
+    // }
+    // account.user_id = user.id;
 
     try {
       await this.accountRepository.save(account);
       return true;
     } catch (err: any) {
-      await this.userService.delete(user.id);
-      await this.roleGroupService.delete(roleGroup.id);
+      // await this.userService.delete(user.id);
+      // await this.roleGroupService.delete(roleGroup.id);
       return false;
     }
   }
