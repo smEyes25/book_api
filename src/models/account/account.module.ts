@@ -1,9 +1,8 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Account } from './entities/account';
 import { UserModule } from '../user/user.module';
-import { RoleGroupModule } from '../role_group/role-group.module';
 import { RoleModule } from '../role/role.module';
 import { AccountController } from './account.controller';
 
@@ -11,8 +10,7 @@ import { AccountController } from './account.controller';
   imports: [
     TypeOrmModule.forFeature([Account]),
     UserModule,
-    forwardRef(() => RoleGroupModule),
-    RoleModule,
+    forwardRef(() => RoleModule),
   ],
   exports: [TypeOrmModule, AccountService],
   controllers: [AccountController],

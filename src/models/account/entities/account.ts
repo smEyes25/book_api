@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Role } from 'src/models/role/entities/role';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Account {
@@ -50,4 +51,10 @@ export class Account {
     length: 120,
   })
   user_id: string;
+
+  @ManyToMany(() => Role, (role) => role.accounts)
+  @JoinTable({
+    name: 'account_role',
+  })
+  roles: Role[];
 }

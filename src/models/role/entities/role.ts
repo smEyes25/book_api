@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Account } from 'src/models/account/entities/account';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Role {
@@ -33,4 +34,7 @@ export class Role {
     default: 1,
   })
   status: number;
+
+  @ManyToMany(() => Account, (account) => account.roles)
+  accounts: Account[];
 }

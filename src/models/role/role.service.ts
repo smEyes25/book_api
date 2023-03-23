@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
 import { Role } from './entities/role';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    @Inject(forwardRef(() => AccountService))
+    private accountService: AccountService,
   ) {}
 
   async findAll(): Promise<Role[]> {
@@ -26,7 +29,15 @@ export class RoleService {
     return role;
   }
 
-  async create(input: Role): Promise<boolean> {
+  async findAccountsById(id: string): Promise<any> {
+    return await this.roleRepository
+      .createQueryBuilder('role')
+      .leftJoinAndSelect('role.accounts', 'account')
+      .where('role.id = :id', { id })
+      .getOne();
+  }
+
+  async create(input: any): Promise<boolean> {
     const id = generateID('ROLE_');
     const role = new Role();
     role.id = id;
@@ -34,6 +45,8 @@ export class RoleService {
     role.created_date = new Date();
     role.modified_date = new Date();
     role.status = input.status;
+    role.accounts = [];
+
     try {
       await this.roleRepository.save(role);
       return true;
@@ -42,11 +55,19 @@ export class RoleService {
     }
   }
 
-  async update(input: Role): Promise<boolean> {
+  async update(input: any): Promise<boolean> {
     const role = await this.findById(input.id);
     role.name = input.name;
     role.status = input.status;
     role.modified_date = new Date();
+
+    role.accounts = await Promise.all(
+      input.account_ids.map(async (account_ids: string) => {
+        const user = await this.accountService.findById(account_ids);
+        return user;
+      }),
+    );
+
     try {
       await this.roleRepository.save(role);
     } catch (err: any) {

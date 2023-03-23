@@ -3,10 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from '../../common/constants/hash';
 import { generateID } from '../../common/constants/uuid';
 import { Repository } from 'typeorm';
-import { RoleService } from '../role/role.service';
-import { RoleGroupService } from '../role_group/role-group.service';
 import { UserService } from '../user/user.service';
 import { Account } from './entities/account';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class AccountService {
@@ -14,8 +13,7 @@ export class AccountService {
     @InjectRepository(Account)
     private accountRepository: Repository<Account>,
     private userService: UserService,
-    @Inject(forwardRef(() => RoleGroupService))
-    private roleGroupService: RoleGroupService,
+    @Inject(forwardRef(() => RoleService))
     private roleService: RoleService,
   ) {}
 
@@ -31,6 +29,14 @@ export class AccountService {
     return await this.accountRepository.findOneBy({ username, status: 1 });
   }
 
+  async findRolesById(id: string): Promise<any> {
+    return this.accountRepository
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.roles', 'role')
+      .where('account.id = :id', { id })
+      .getOne();
+  }
+
   async create(input: any): Promise<boolean> {
     const id = generateID('ACCOUNT_');
 
@@ -41,14 +47,15 @@ export class AccountService {
     account.last_logged_in_date = new Date();
     account.username = input.username;
     account.password = hash(input.password);
-    account.status = 1;
-    // account.user_id = '123456789';
 
-    const role = await this.roleService.findByName(input.role_name);
-    if (!role) return false;
+    account.roles = [];
 
-    const roleGroup = await this.roleGroupService.create(role.id, account.id);
-    if (!roleGroup) return false;
+    await Promise.all(
+      input.role_ids.map(async (role_id: string) => {
+        const role = await this.roleService.findById(role_id);
+        account.roles.push(role);
+      }),
+    );
 
     const user = await this.userService.create(input, id);
     if (!user) {
@@ -61,7 +68,6 @@ export class AccountService {
       return true;
     } catch (err: any) {
       await this.userService.delete(user.id);
-      await this.roleGroupService.delete(roleGroup.id);
       return false;
     }
   }
@@ -75,6 +81,13 @@ export class AccountService {
     account.modified_date = new Date();
     account.username = input.username;
     account.password = hash(input.password);
+
+    account.roles = await Promise.all(
+      input.role_ids.map(async (role_id: string) => {
+        const role = await this.roleService.findById(role_id);
+        return role;
+      }),
+    );
 
     try {
       await this.userService.update(input, user.id);
@@ -96,25 +109,6 @@ export class AccountService {
     } catch (err: any) {
       return false;
     }
-  }
-
-  async updateRole(accountId: string, roleIds: string[]): Promise<boolean> {
-    const account = this.findById(accountId);
-    if (!account) return false;
-
-    if (roleIds.length > 0) {
-      roleIds.map(async (roleId) => {
-        const role = await this.roleService.findById(roleId);
-        if (!role) return false;
-
-        const roleGroup = await this.roleGroupService.create(roleId, accountId);
-        if (!roleGroup) return false;
-      });
-
-      return true;
-    }
-
-    return false;
   }
 
   async remove(accountId: string): Promise<boolean> {

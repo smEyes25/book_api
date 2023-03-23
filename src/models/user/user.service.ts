@@ -33,6 +33,7 @@ export class UserService {
     user.email = input.email;
     user.phone_number = input.phone_number;
     user.account_id = accountId;
+
     try {
       const result = await this.userRepository.save(user);
       return result;

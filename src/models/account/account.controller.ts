@@ -26,7 +26,7 @@ export class AccountController {
 
   @Get('/:id')
   async getById(@Param() param): Promise<any> {
-    const account = await this.accountService.findById(param.id);
+    const account = await this.accountService.findRolesById(param.id);
     if (!account) {
       throw new HttpException('No account found', HttpStatus.BAD_REQUEST);
     }

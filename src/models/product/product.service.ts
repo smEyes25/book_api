@@ -55,10 +55,12 @@ export class ProductService {
     product.in_stock_id = inStockId;
     product.categories = [];
 
-    input.category_ids.map(async (categoryId: string) => {
-      const category = await this.categoryService.findById(categoryId);
-      product.categories.push(category);
-    });
+    await Promise.all(
+      input.category_ids.map(async (categoryId: string) => {
+        const category = await this.categoryService.findById(categoryId);
+        product.categories.push(category);
+      }),
+    );
 
     try {
       await this.productRepository.save(product);

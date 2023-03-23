@@ -7,7 +7,6 @@ import { ProductInfo } from '../../models/product-info/entities/product-info';
 import { Product } from '../../models/product/entities/product';
 import { Account } from '../../models/account/entities/account';
 import { Role } from '../../models/role/entities/role';
-import { RoleGroup } from '../../models/role_group/entities/role-group';
 import { User } from '../../models/user/entities/user';
 import { Bill } from '../../models/bill/entities/bill';
 
@@ -26,7 +25,6 @@ import { Bill } from '../../models/bill/entities/bill';
           Account,
           Role,
           User,
-          RoleGroup,
           Product,
           ProductInfo,
           InStock,
