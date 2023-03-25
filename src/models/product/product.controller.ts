@@ -61,6 +61,15 @@ export class ProductController {
     return categories;
   }
 
+  @HttpCode(200)
+  @Post('/price')
+  async searchByPrice(@Req() req): Promise<any> {
+    return await this.productInfoService.searchByPrice(
+      req.body.from,
+      req.body.to,
+    );
+  }
+
   @HttpCode(201)
   @Post()
   async create(@Req() req): Promise<any> {
@@ -101,6 +110,10 @@ export class ProductController {
 
     const inStock = await this.inStockService.findById(product.in_stock_id);
 
-    return { id: product.id, productInfo, inStock };
+    console.log(product.id);
+
+    const categories = await this.productService.findCategoriesById(product.id);
+
+    return { id: product.id, productInfo, inStock, categories };
   }
 }

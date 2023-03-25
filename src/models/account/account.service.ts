@@ -37,6 +37,14 @@ export class AccountService {
       .getOne();
   }
 
+  async findRolesByUsername(username: string): Promise<any> {
+    return this.accountRepository
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.roles', 'role')
+      .where('account.username = :username', { username })
+      .getOne();
+  }
+
   async create(input: any): Promise<boolean> {
     const id = generateID('ACCOUNT_');
 

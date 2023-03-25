@@ -22,6 +22,14 @@ export class ProductService {
     return await this.productRepository.findBy({ status: 1 });
   }
 
+  async findAllWithCategories(): Promise<any> {
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.categories', 'category')
+      .where('1 = :id', { id: 1 })
+      .getOne();
+  }
+
   async findById(id: string): Promise<Product> {
     return await this.productRepository.findOneBy({ id, status: 1 });
   }

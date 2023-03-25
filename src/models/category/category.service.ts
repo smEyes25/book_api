@@ -47,16 +47,19 @@ export class CategoryService {
       .where('category.id = :id', { id })
       .getOne();
 
+    console.log(category);
+
     let productInfos = [];
     const products = category.products;
-    products.map((product) => {
-      const product_info = this.productInfoService.findById(
-        product.product_info_id,
-      );
-      productInfos.push(product_info);
-    });
 
-    productInfos = await Promise.all(productInfos);
+    productInfos = await Promise.all(
+      products.map((product) => {
+        const product_info = this.productInfoService.findById(
+          product.product_info_id,
+        );
+        productInfos.push(product_info);
+      }),
+    );
 
     return { category, product_infos: productInfos };
   }

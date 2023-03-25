@@ -24,6 +24,14 @@ export class ProductInfoService {
     return await this.productInfoRepository.findBy({ name: name });
   }
 
+  async searchByPrice(from: number, to: number): Promise<ProductInfo[]> {
+    return await this.productInfoRepository
+      .createQueryBuilder('product_info')
+      .select()
+      .where('price >= :from and price <= :to', { from, to })
+      .getMany();
+  }
+
   async create(input: any, productId: string): Promise<string> {
     const id = generateID('PRODUCTINFO_');
     const productInfo = new ProductInfo();
